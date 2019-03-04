@@ -1,0 +1,86 @@
+﻿@model Bobson.UI.Web.AtendimentoViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Edit";
+}
+
+
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm("salvar", "Atendimento", FormMethod.Post))
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Editar/Cadastrar Atendimento</h4>
+            </div>
+
+            @Html.AntiForgeryToken()
+
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.atendimento.Id, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.atendimento.Id, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.atendimento.Id)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.atendimento.idTipoAtendimento, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(x => Model.atendimento.idTipoAtendimento,
+                           new SelectList(Model.tiposAtendimento, "Id", "descricao"),
+                           htmlAttributes: new { @class = "form-control", id = "idTipoAtendimento",
+                               @onchange = "setaModo()"
+                             
+                           })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.atendimento.obs, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.atendimento.obs, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.atendimento.dataContato)
+                        </div>
+                    </div>
+                    <div id="completo" hidden>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.atendimento.dataVisita, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.atendimento.dataVisita, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                @Html.ValidationMessageFor(model => model.atendimento.dataVisita)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.atendimento.horaIni, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.atendimento.horaIni, new { type = "time", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.atendimento.horaIni)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.atendimento.horaFim, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.atendimento.horaFim, new { type = "time", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.atendimento.horaFim)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" />
+            </div>
+        }
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

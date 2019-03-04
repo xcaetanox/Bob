@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNet.Identity;
+
+@{
+    Layout = null;
+}
+
+<script type="text/JavaScript">
+
+
+    $(document).ready(function () {
+
+        tinymce.baseURL = "/Scripts/tinymce/";
+
+        tinymce.init({
+            selector: 'textarea',
+            relative_urls: false,
+            remove_script_host: false,
+            convert_urls: true,
+            height: 250,
+            language: 'pt_BR',
+            theme: 'modern',
+            setup: function (editor) {
+
+                var inp = $('<input id="tinymce-uploader" type="file" name="pic" accept="image/*" style="display:none">');
+                $(editor.getElement()).parent().append(inp);
+
+                inp.on("change", function () {
+                    var input = inp.get(0);
+                    var file = input.files[0];
+                    var fr = new FileReader();
+                    fr.onload = function () {
+                        var img = new Image();
+                        img.src = fr.result;
+                        editor.insertContent('<img src="' + img.src + '"/>');
+                        inp.val('');
+                    }
+
+                    fr.readAsDataURL(file);
+                });
+
+                function toCampoData() {
+                    return '[(#CAMPO_DATA#)]';
+                }
+
+                function toCampoLivre() {
+                    return '[(#CAMPO_LIVRE#)]';
+                }
+
+                function insertDate() {
+
+                    var html = toCampoData();
+                    editor.insertContent(html);
+
+                }
+
+                function insertField() {
+                    var temp = tinymce.activeEditor.getContent();
+                    var count = (temp.match(/CAMPO_LIVRE/g) || []).length;
+
+                    if (count <= 30) {
+
+                        var html = toCampoLivre();
+                        editor.insertContent(html);
+                    }
+                    else {
+                        alert('Você só pode inserir 30 campos livres!')
+                    }
+                }
+
+                function insertImage() {
+                    editor.insertContent('<img alt="Assinatura" title="Assinatura" style="display:block" width="529" height="136" src="' + '@String.Concat(Request.Url.Scheme, "://", Request.Url.Authority, Request.ApplicationPath, "/images/", "Ass-", User.Identity.GetUserId().ToString(), ".jpg")' + '" />');
+                }
+
+
+                
+
+                editor.addButton('imageupload', {
+                    image: '/Images/icons/ass.png',
+                    text: 'Assinatura',
+                    tooltip: "Inserir Assinatura Digital",
+                    onclick: insertImage
+                }),
+
+                editor.addButton('currentdate', {
+                    image: '/Images/icons/calendar.png',
+                    text: 'Data',
+                    tooltip: "Inserir Data Atual",
+                    onclick: insertDate
+                }),
+
+                editor.addButton('opentext', {
+                    image: '/Images/icons/text.png',
+                    text: 'Livre',
+                    tooltip: "Inserir Campo Livre",
+                    onclick: insertField
+                });
+            },
+            plugins: [
+              'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+              'searchreplace wordcount visualblocks visualchars code fullscreen',
+              'insertdatetime media nonbreaking save table contextmenu directionality',
+              'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
+            ],
+            toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | imageupload ',
+            toolbar2: 'code print preview media | forecolor backcolor emoticons | codesample help ',
+            image_advtab: true,
+            templates: [
+              { title: 'Test template 1', content: 'Test 1' },
+              { title: 'Test template 2', content: 'Test 2' }
+            ]
+        });
+    });
+
+</script>

@@ -1,0 +1,256 @@
+@model Bobson.UI.Web.Models.GenericViewModel 
+@using (Html.BeginForm("PrintView", "Template")) { @Html.HiddenFor(m => m.ViewName) <hr/> 
+<div>
+<div style="width: 150px; height: 60px; background-image: url('http://localhost:1756/Images/bobson.png'); background-repeat: no-repeat; background-size: 100%;">&nbsp;</div>
+<hr /></div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="mso-bidi-font-size: 12.0pt; font-family: Arial; mso-bidi-font-family: 'Times New Roman';"><span style="mso-tab-count: 1;"> @DateTime.Today.ToLongDateString() </span></span></p>
+<p><span style="mso-bidi-font-size: 12.0pt; font-family: Arial; mso-bidi-font-family: 'Times New Roman';"><span style="mso-tab-count: 1;">ATT: <div class="input-group input-group-sm col-lg-2"> <span class="input-group-addon">?</span> @Html.EditorFor(model => model.CamposTexto_00, new { htmlAttributes = new { style="width: 120px", @class = "form-control btn-info", @placeholder="Campo Livre" } }) </div> </span></span></p>
+<p><span style="mso-bidi-font-size: 12.0pt; font-family: Arial; mso-bidi-font-family: 'Times New Roman';"><span style="mso-tab-count: 1;">A/C: <div class="input-group input-group-sm col-lg-2"> <span class="input-group-addon">?</span> @Html.EditorFor(model => model.CamposTexto_01, new { htmlAttributes = new { style="width: 120px", @class = "form-control btn-info", @placeholder="Campo Livre" } }) </div> </span></span>&nbsp;</p>
+<div class="Section1">
+<table style="width: 892px;">
+<tbody>
+<tr>
+<td style="width: 10px;"><img src="data:image/jpeg;base64,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" /></td>
+<td style="width: 1074px; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p><strong><u>Aparelho digital de neutralizar odor. </u></strong></p>
+<p><strong><u>Fun&ccedil;&otilde;es</u>:</strong></p>
+<p>-Programa&ccedil;&atilde;o do hor&aacute;rio de funcionamento (exemplo: ligar as 8:33 e desligar as 18:45).</p>
+<p>-Programa&ccedil;&atilde;o do intervalo de tempo para borrifar os jatos,&nbsp;de 1 minuto em 1 minuto at&eacute; 99 minutos em 99 minutos.</p>
+<p>-Equipamento possui travas de seguran&ccedil;a, s&oacute; podendo ser aberto com a chave.</p>
+<p>-S&oacute; necessita de uma pilha para o funcionamento.</p>
+<p><strong><u>Refil</u>:</strong></p>
+<p>- Refil que odoriza o ambiente, com 5.400 jatos, &uacute;nico no Brasil.</p>
+<p>- Disponibilizamos 11 (onze) fragr&acirc;ncias diferentes.</p>
+<p><strong><u>Descri&ccedil;&atilde;o do servi&ccedil;o</u>:</strong></p>
+<p>- Todos os clientes s&atilde;o cadastrados no sistema da Bobson e a cada 54 dias um t&eacute;cnico &eacute; enviado para fazer a manuten&ccedil;&atilde;o dos nossos equipamentos, evitando que o aparelho fique sem refil. A manuten&ccedil;&atilde;o inclui substitui&ccedil;&atilde;o do refil, limpeza do aparelho, troca de pilha quando necess&aacute;rio e a substitui&ccedil;&atilde;o de qualquer equipamento que apresente defeito por uso normal.</p>
+</td>
+<td style="width: 162px;"><img style="margin-right: auto; margin-left: auto; display: block;" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCABLACMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD2asLX9DGrOr/2jJbGJT8seOfrW4Tiq62FurOwVsyNubDsMn86AOa8FebA95Fcu+4bf9Ye+OetdaCCMg5rJuNMs03mKF43bqySMCf1qHR50sZPsBUhXYlWLEncfUmiwXN2iiigDm7XxfpUrStcaxZw4kZY0LDeACRzz14qSfxVoar83iGCPPQgj/CvPZPB1l9qkl+1TbvMLdBjOafc6JDsH74nHrGtYe3g9hq3U66XxLoTN/yNIP0A/wAKqXGt6Sfnj12JiOckgH+VcJJ4dthJnzpOTnoKcdDtjhWmk2ng9K09ohHp2n+LNMFjGJdQ85xnLgg55NFcTbaBbW8CxLNKQpPJA9aKSqxZfs5G2pLSMAPmZiBxnnNVbmKb5SVJUgEEehqwLgQO5KllYsCB1HvVOa8jwcq+78a4YQV7k30sZ84KSbWGCO1V5X4xU9xcxk8qxIPU96z/ALbDcTPFECCmckjrXWkSdKrjHWiooyTGvPaisYrRHU3qTbvmb/eP86qTN1qRmO9gP7x/nUFxnGcH8qhLU5SlM3JqkIYoneRECs/UjvVmUnPeqzfM6oO5xXVEDoEzsH0oqQybSQFXANFJU9DZzM26g8S6fM/naWLhAxxJCeoz1qhPrl2oxNpt1H9V/wDrV7ZIilTkVhagidPLj5P9wVp7OO5ieRSawXPNtPn3FJBf3HnpJFYSSFTkA5wa9L+zwNKqmCLB/wBgVr6bo+nyLve1QnHqcflVcqQzh9P0/Wr2yjuXkhgaTJ8vYTt5Ior1NESNAiKFUdABgCimB//Z" width="53" height="114" /></td>
+</tr>
+</tbody>
+</table>
+<p class="MsoNormal"><span lang="ES-MX" style="mso-bidi-font-size: 12.0pt; mso-ansi-language: ES-MX;">&nbsp;</span><span style="font-size: 12.0pt; mso-bidi-font-size: 10.0pt; font-family: 'Times New Roman';">AD 280 M SERVI&Ccedil;O DE DESODORIZA&Ccedil;&Atilde;O DE AMBIENTE</span><!-- [if gte vml 1]><v:shapetype
+ id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
+ path="m@@4@@5l@@4@@11@@9@@11@@9@@5xe" filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @@0 1 0"/>
+  <v:f eqn="sum 0 0 @@1"/>
+  <v:f eqn="prod @@2 1 2"/>
+  <v:f eqn="prod @@3 21600 pixelWidth"/>
+  <v:f eqn="prod @@3 21600 pixelHeight"/>
+  <v:f eqn="sum @@0 0 1"/>
+  <v:f eqn="prod @@6 1 2"/>
+  <v:f eqn="prod @@7 21600 pixelWidth"/>
+  <v:f eqn="sum @@8 21600 0"/>
+  <v:f eqn="prod @@7 21600 pixelHeight"/>
+  <v:f eqn="sum @@10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="_x0000_s1085" type="#_x0000_t75" style='position:absolute;
+ left:0;text-align:left;margin-left:0;margin-top:19.2pt;width:61.6pt;height:115.05pt;
+ z-index:-1;mso-position-horizontal:left' wrapcoords="-263 0 -263 21459 21600 21459 21600 0 -263 0">
+ <v:imagedata src="2%20PROPOSTA%20AD_arquivos/image001.jpg" o:title="AD260M"/>
+ <w:wrap type="square"/>
+</v:shape><![endif]--><span style="font-size: 10.0pt;">&nbsp;</span></p>
+<table class="MsoNormalTable" style="border-collapse: collapse; mso-padding-alt: 0cm 5.4pt 0cm 5.4pt;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr style="mso-yfti-irow: 0; mso-yfti-firstrow: yes;">
+<td style="width: 127.6pt; border: solid windowtext 1.0pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="170">
+<p class="MsoNormal"><span style="font-size: 10.0pt;">Quantidade</span></p>
+</td>
+<td style="width: 5.0cm; border: solid windowtext 1.0pt; border-left: none; mso-border-left-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="189">
+<p class="MsoNormal" style="text-align: center;" align="center"><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 10.0pt; color: red;">Pre&ccedil;o pagamento mensal</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 1;">
+<td style="width: 127.6pt; border: solid windowtext 1.0pt; border-top: none; mso-border-top-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="170">
+<p class="MsoNormal"><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 10.0pt;">Unidade<span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>1</span></strong></p>
+</td>
+<td style="width: 5.0cm; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .75pt; mso-border-left-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="189">
+<p class="MsoNormal" style="text-align: center;" align="center"><span style="font-size: 10.0pt;"> <div class="input-group input-group-sm col-lg-2"> <span class="input-group-addon">?</span> @Html.EditorFor(model => model.CamposTexto_02, new { htmlAttributes = new { style="width: 120px", @class = "form-control btn-info", @placeholder="Campo Livre" } }) </div> (cada)</span></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 2;">
+<td style="width: 127.6pt; border: solid windowtext 1.0pt; border-top: none; mso-border-top-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="170">
+<p class="MsoNormal"><span style="font-size: 10.0pt;">Quantidade</span></p>
+</td>
+<td style="width: 5.0cm; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .75pt; mso-border-left-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="189">
+<p class="MsoNormal" style="text-align: center;" align="center"><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 10.0pt; color: red;">Pre&ccedil;o pagamento a cada 54 dias</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 3; mso-yfti-lastrow: yes;">
+<td style="width: 127.6pt; border: solid windowtext 1.0pt; border-top: none; mso-border-top-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="170">
+<p class="MsoNormal"><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 10.0pt;">Unidade<span style="mso-spacerun: yes;">&nbsp;&nbsp;&nbsp; </span>1</span></strong></p>
+</td>
+<td style="width: 5.0cm; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-top-alt: solid windowtext .75pt; mso-border-left-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="189">
+<p class="MsoNormal" style="text-align: center;" align="center"><span style="font-size: 10.0pt;"> <div class="input-group input-group-sm col-lg-2"> <span class="input-group-addon">?</span> @Html.EditorFor(model => model.CamposTexto_03, new { htmlAttributes = new { style="width: 120px", @class = "form-control btn-info", @placeholder="Campo Livre" } }) </div> (cada)</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="MsoNormal" style="text-align: left;">&nbsp;</p>
+<p>PRECO DA MAQUINA&nbsp;&nbsp; <div class="input-group input-group-sm col-lg-2"> <span class="input-group-addon">?</span> @Html.EditorFor(model => model.CamposTexto_04, new { htmlAttributes = new { style="width: 120px", @class = "form-control btn-info", @placeholder="Campo Livre" } }) </div> </p>
+<p>QUANTIDADE <div class="input-group input-group-sm col-lg-2"> <span class="input-group-addon">?</span> @Html.EditorFor(model => model.CamposTexto_05, new { htmlAttributes = new { style="width: 120px", @class = "form-control btn-info", @placeholder="Campo Livre" } }) </div> </p>
+<p>TOTAL <div class="input-group input-group-sm col-lg-2"> <span class="input-group-addon">?</span> @Html.EditorFor(model => model.CamposTexto_06, new { htmlAttributes = new { style="width: 120px", @class = "form-control btn-info", @placeholder="Campo Livre" } }) </div> </p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="MsoNormal" style="text-align: left;"><span style="font-size: 11.5pt;">Obs:</span><span style="font-size: 10.0pt;">&nbsp;</span><span style="font-size: 10.0pt;">&nbsp;</span></p>
+<table class="MsoNormalTable" style="border-collapse: collapse; mso-padding-alt: 0cm 5.4pt 0cm 5.4pt;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr style="mso-yfti-irow: 0; mso-yfti-firstrow: yes; mso-yfti-lastrow: yes;">
+<td style="width: 127.6pt; border: solid windowtext 1.0pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="170">
+<p class="MsoNormal" style="text-align: justify;"><strong style="mso-bidi-font-weight: normal;"><em style="mso-bidi-font-style: normal;"><span style="font-size: 10.0pt;">*Dura&ccedil;&atilde;o do nosso refil</span></em></strong></p>
+</td>
+<td style="width: 5.0cm; border: solid windowtext 1.0pt; border-left: none; mso-border-left-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="189">
+<p class="MsoNormal" style="text-align: center;" align="center"><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 10.0pt;">Refil Aerossol, mantendo a efici&ecirc;ncia do 1&ordm; ao &uacute;ltimo dia</span></strong></p>
+</td>
+<td style="width: 4.0cm; border: solid windowtext 1.0pt; border-left: none; mso-border-left-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="151">
+<p class="MsoNormal" style="text-align: center;" align="center"><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 10.0pt;">Equipamento sem custo</span></strong></p>
+</td>
+<td style="width: 155.95pt; border: solid windowtext 1.0pt; border-left: none; mso-border-left-alt: solid windowtext .75pt; mso-border-alt: solid windowtext .75pt; padding: 0cm 5.4pt 0cm 5.4pt;" valign="top" width="208">
+<p class="MsoNormal" style="text-align: center;" align="center"><strong style="mso-bidi-font-weight: normal;"><span style="font-size: 10.0pt;">.</span></strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="MsoNormal"><span style="mso-bidi-font-size: 12.0pt;">&nbsp;</span><span style="mso-bidi-font-size: 12.0pt;">Aromas dispon&iacute;veis </span></p>
+<table class="MsoNormalTable" style="width: 212.0pt; margin-left: 2.75pt; border-collapse: collapse; mso-yfti-tbllook: 1184; mso-padding-alt: 0cm 3.5pt 0cm 3.5pt;" border="0" width="283" cellspacing="0" cellpadding="0">
+<tbody>
+<tr style="mso-yfti-irow: 0; mso-yfti-firstrow: yes; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; mso-border-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">CITRICO</span></strong></p>
+</td>
+<td style="width: 46.0pt; border: solid windowtext 1.0pt; border-left: none; mso-border-top-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">FORTE</span></strong></p>
+</td>
+<td style="width: 113.0pt; border: solid windowtext 1.0pt; border-left: none; mso-border-top-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">ORANGE</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 1; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">CITRICO</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">FORTE</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">LIMOM LIME</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 2; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">CITRICO</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">MEDIO</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #00b050;">GREEN APPLE</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 3; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">DOCE</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">FORTE</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">BAUNILHA</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 4; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">DOCE</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">MEDIO</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">TENDER POISON</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 5; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">DOCE</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">SUAVE</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal" style="text-align: center;" align="center"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #e26b0a;">CHRISTIMAS COOKIES</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 6; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: red;">FLORAL</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: red;">SUAVE</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: red;">VIOLETA</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 7; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #974706;">MADEIRA</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #974706;">MEDIO</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #974706;">RIVIERA</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 8; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial;">NEUTRO</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial;">SUAVE</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial;">AIR SANITIZER</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 9; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #7030a0;">PERFUME</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #7030a0;">MEDIO</span></strong></p>
+</td>
+<td style="width: 113.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #7030a0;">MALE</span></strong></p>
+</td>
+</tr>
+<tr style="mso-yfti-irow: 10; mso-yfti-lastrow: yes; height: 12.75pt;">
+<td style="width: 53.0pt; border: solid windowtext 1.0pt; border-top: none; mso-border-left-alt: solid windowtext .5pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="71">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #002060;">TALCO</span></strong></p>
+</td>
+<td style="width: 46.0pt; border-top: none; border-left: none; border-bottom: solid windowtext 1.0pt; border-right: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; mso-border-right-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="61">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #002060;">SUAVE</span></strong></p>
+</td>
+<td style="width: 113.0pt; border: none; border-bottom: solid windowtext 1.0pt; mso-border-left-alt: solid windowtext 1.0pt; mso-border-bottom-alt: solid windowtext .5pt; background: white; padding: 0cm 3.5pt 0cm 3.5pt; height: 12.75pt;" valign="bottom" nowrap="nowrap" width="151">
+<p class="MsoNormal"><strong><span style="font-size: 10.0pt; font-family: Arial; color: #002060;">SAND</span></strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="MsoNormal"><span style="mso-bidi-font-size: 12.0pt;">  <div style="height:150; width:529px; padding:0px; background:url(http://bobson.kinghost.net/Images/AssinaturaNova.png) no-repeat white">       <div> <p align="Right" style="padding: 30"><br><font size="3" color="black">@Model.User.Nome</font>  <br> <font size="1" color="black"> @Model.User.Cargo </font> <br> <font size="1" color="black">Telefones + 55 @Model.User.TelefoneCelular <br> @Model.User.TelefoneComercial</font> <br> <br> <br> </p> </div> </div> <br><br /></span></p>
+</div>
+<div><hr />
+<p class="western" style="margin-top: 0.05cm; margin-bottom: 0.18cm;" align="left"><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong>SAO PAULO</strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR">Tel: (55 11)5585- 3092/5072-9863 - </span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong>RIO DE JANEIRO</strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"> Tel: (55 21)3273-6168/3273-6097 - </span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong>ARCAJU</strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"> Tel: (55 79)3217-5098 </span></span></span></p>
+<p class="western" style="margin-top: 0.18cm; margin-bottom: 0.18cm;" align="left"><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong>BELO HORIZONTE</strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"> Tel: (55 31)3564-4557/3324-8583 -</span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong> RECIFE</strong></span></span></span> <span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR">Tel: (55 81)3461 2345 - </span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong>CURITIBA </strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"> Tel: (55 41)3362-1822 / 3042 1160 </span></span></span></p>
+<p class="western" style="margin-top: 0.18cm; margin-bottom: 0.18cm;" align="left"><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong>SALVADOR</strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"> Tel: (55 71)3379-4856/3379-0126 - </span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong>BRASILIA</strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"> Tel: (55 61) 3382-0976/3382-0871 - </span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"><strong>CAMPOS MACAE</strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="pt-BR"> / Tel: (55 22)2773-</span></span></span></p>
+<p class="western" style="margin-top: 0.18cm; margin-bottom: 0.18cm;" align="left"><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="en-US">7302/2793-5405 -</span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="en-US"><strong> JOINVILLE</strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="en-US"> Tel: (55 47)3027-2787/3027-3717 - </span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="en-US"><strong>FLORIANOPOLIS &ndash; SC </strong></span></span></span><span style="font-family: Verdana, sans-serif;"><span style="font-size: xx-small;"><span lang="en-US">Tel: (55 48)3307-1311 </span></span></span></p>
+<hr /></div>
+ <br/> 
+@Html.Action("EnviarForm", "Template", Model) <hr /><div class="text-center"><input type="submit" class="btn btn-primary" value="Enviar" /></div> } 
+@section Scripts { @Scripts.Render("~/bundles/tinymce")  @Html.Action("TinyMCE", "Template")  }

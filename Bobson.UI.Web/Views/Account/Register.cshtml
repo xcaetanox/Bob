@@ -1,0 +1,138 @@
+﻿
+@model  Bobson.UI.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Criar Senha";
+    Layout = Request.IsAuthenticated ? "~/Views/Shared/_Layout.cshtml" : "~/Views/Shared/_LayoutFechado.cshtml";
+}
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <br />
+    <div class="jumbotron">
+        <div class="form-horizontal">
+            <h1>@ViewBag.Title</h1>
+            <h4>Para acessar o sistema você precisa criar sua senha</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control input-lg", placeholder = "Seu Nome" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", placeholder = "Seu Email Pessoal" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", placeholder = "Escolha uma Senha" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control input-lg", placeholder = "Confirme a Senha" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <br />
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="row">
+                       
+                        
+
+                        <div class="col-md-4">
+                            @*Html.EditorFor(model => model.DataNascimento, new { htmlAttributes = new { @class = "form-control input-lg" } })*@
+                            @Html.DropDownListFor(model => model.DiaNascimento, Enumerable.Range(1, 31).Select(x => new SelectListItem { Value = x.ToString("00"), Text = x.ToString("00") }), new { @class = "form-control input-lg" })
+                        </div>
+
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.MesNascimento, Enumerable.Range(1, 12).Select(x => new SelectListItem { Value = x.ToString("00"), Text = x.ToString("00") }), new { @class = "form-control input-lg" })
+                        </div>
+
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.AnoNascimento, Enumerable.Range(0, 150).Select(x => new SelectListItem { Value = (DateTime.Today.Year - x).ToString(), Text = (DateTime.Today.Year - x).ToString() }), new { @class = "form-control input-lg" })
+                        </div>
+                        
+                        @Html.ValidationMessageFor(model => model.DataNascimento, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            @Html.DropDownListFor(model => model.Role, Model.Roles, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <button type="submit" formmethod="post" class="btn btn-success btn-lg">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Criar Usuário
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script type="text/JavaScript">
+
+        String.prototype.preencherEsq = function (stringAdd, tamanhoFinal) {
+            var str = this;
+            while (str.length < tamanhoFinal)
+                str = stringAdd + str;
+            return str;
+        }
+
+
+        function BuscarCep() {
+            var urlCep = 'http://cep.republicavirtual.com.br/web_cep.php?cep=' + $('#Cep').val().preencherEsq(0, 8) + '&formato=json';
+
+            $.ajax({
+                url: urlCep,
+                type: 'GET',
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    $('#Uf').val(data.uf);
+                    $('#Cidade').val(data.cidade);
+                    $('#Bairro').val(data.bairro);
+                    $('#Logradouro').val(data.tipo_logradouro + ' ' + data.logradouro);
+                },
+                error: function (data) {
+                    aler(data);
+                }
+            });
+        }
+
+        $('#Cep').on('change', function () {
+            BuscarCep();
+        })
+
+    </script>
+}

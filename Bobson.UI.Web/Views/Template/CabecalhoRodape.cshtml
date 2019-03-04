@@ -1,0 +1,184 @@
+﻿@model Bobson.UI.Web.Models.CabecalhoViewModel
+@{
+    ViewBag.Title = "Cabeçalho e Rodapé da Proposta";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-horizontal">
+    <h4>Manutenção</h4>
+    <hr />
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div id="aErro" class="alert alert-danger alert-dismissible" role="alert" style="display: @Model.Erro">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Erro Ocorrido!</strong> Tente novamente; Se o erro persistir entre em contato com o suporte.
+        </div>
+
+        <div id="aSucesso" class="alert alert-success alert-dismissible" role="alert" style="display: @Model.Sucesso">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Sucesso!</strong> A operação foi efetuada com Sucesso
+        </div>
+
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tabs-1" aria-controls="tabs-1" role="tab" data-toggle="tab">Cabeçalho</a></li>
+            <li role="presentation"><a href="#tabs-2" aria-controls="tabs-2" role="tab" data-toggle="tab">Rodapé</a></li>
+        </ul>
+
+         <!-- Paineis -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="tabs-1">
+                @Html.TextAreaFor(model => model.Cabecalho)
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tabs-2">
+                @Html.TextAreaFor(model => model.Rodape)
+            </div>
+
+        </div>
+
+
+        <br />
+
+        <div class="form-group pull-right">
+            <div class="col-md-10">
+                <input type="submit" value="Salvar" id="btnSalvar" class="btn btn-primary" />
+            </div>
+        </div>
+    }
+</div>
+
+
+<br />
+<br />
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/tinymce")
+
+    <script type="text/JavaScript">
+
+        function ApagaMensagem() {
+            if ($("#aSucesso").is(":visible")) {
+                $("#aSucesso").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#aSucesso").slideUp(500);
+                });
+            }
+            if ($("#aErro").is(":visible")) {
+                $("#aErro").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#aErro").slideUp(500);
+                });
+            }
+
+        }
+
+        $(document).ready(function () {
+
+            //E caso de erro ou sucesso vindo do server (necessidade de mensagem)
+            ApagaMensagem();
+
+            tinymce.baseURL = "/Scripts/tinymce/";
+
+            tinymce.init({
+                selector: 'textarea',
+                relative_urls: false,
+                remove_script_host: false,
+                convert_urls: true,
+                height: 500,
+                language: 'pt_BR',
+                theme: 'modern',
+                setup: function (editor) {
+
+                    var inp = $('<input id="tinymce-uploader" type="file" name="pic" accept="image/*" style="display:none">');
+                    $(editor.getElement()).parent().append(inp);
+
+                    inp.on("change", function () {
+                        var input = inp.get(0);
+                        var file = input.files[0];
+                        var fr = new FileReader();
+                        fr.onload = function () {
+                            var img = new Image();
+                            img.src = fr.result;
+                            editor.insertContent('<img src="' + img.src + '"/>');
+                            inp.val('');
+                        }
+
+                        fr.readAsDataURL(file);
+                    });
+
+                    function toCampoData() {
+                        return '[(#CAMPO_DATA#)]';
+                    }
+
+                    function toCampoLivre() {
+                        return '[(#CAMPO_LIVRE#)]';
+                    }
+
+                    function insertDate() {
+
+                        var html = toCampoData();
+                        editor.insertContent(html);
+
+                    }
+
+                    function insertField() {
+                        var temp = tinymce.activeEditor.getContent();
+                        var count = (temp.match(/CAMPO_LIVRE/g) || []).length;
+
+                        if (count <= 30) {
+
+                            var html = toCampoLivre();
+                            editor.insertContent(html);
+                        }
+                        else {
+                            alert('Você só pode inserir 30 campos livres!')
+                        }
+                    }
+
+                    function insertImage() {
+                        inp.trigger('click');
+                    }
+
+                    editor.addButton('imageupload', {
+                        image: '/Images/icons/image.png',
+                        tooltip: "Inserir Imagem (Direto - Sem Link)",
+                        onclick: insertImage
+                    }),
+
+                    editor.addButton('currentdate', {
+                        image: '/Images/icons/calendar.png',
+                        text: 'Data',
+                        tooltip: "Inserir Data Atual",
+                        onclick: insertDate
+                    }),
+
+                    editor.addButton('opentext', {
+                        image: '/Images/icons/text.png',
+                        text: 'Livre',
+                        tooltip: "Inserir Campo Livre",
+                        onclick: insertField
+                    });
+                },
+                plugins: [
+                  'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                  'searchreplace wordcount visualblocks visualchars code fullscreen',
+                  'insertdatetime media nonbreaking save table contextmenu directionality',
+                  'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
+                ],
+                toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | imageupload',
+                toolbar2: 'code print preview media | forecolor backcolor emoticons | codesample help | currentdate opentext',
+                image_advtab: true,
+                templates: [
+                  { title: 'Test template 1', content: 'Test 1' },
+                  { title: 'Test template 2', content: 'Test 2' }
+                ]
+            });
+
+        });
+
+    </script>
+}

@@ -1,0 +1,211 @@
+﻿@model Bobson.UI.Web.Models.TemplateViewModel
+@{
+    ViewBag.Title = "Modelos de Proposta";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-horizontal">
+    <h4>Manutenção</h4>
+    <hr />
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        @Html.DropDownListFor(model => model.Id, new SelectList(@Model.ListaTemplates, "Id", "Extra"), new { @id = "ddlTemplates", @class = "form-control" })
+                        <button id='btnAtualizar' title="Atualizar Modelo" type="submit" aria-disabled="false" class="btn btn-default" formaction="/Template/Atualizar" formnovalidate>
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Categoria, new SelectList(@Model.Categorias, "Id", "Desc"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cabecalho, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Raw(Model.Cabecalho)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Html, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Html)
+                @Html.ValidationMessageFor(model => model.Html, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Rodape, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Raw(Model.Rodape)
+            </div>
+        </div>
+
+        <div class="form-group pull-right">
+            <div class="col-md-12">
+                <input type="submit" value="Salvar" id="btnSalvar" class="btn btn-primary" formaction="/Template/Salvar" />
+                <input type="submit" value="Excluir" id="btnDeletar" class="btn btn-danger" formaction="/Template/Deletar" />
+            </div>
+        </div>
+    }
+</div>
+<br />
+<br />
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/tinymce")
+
+    <script type="text/JavaScript">
+
+        $(document).ready(function () {
+
+            $('#ddlTemplates').on('change', function () {
+                $('#btnAtualizar').click();
+            });
+
+            tinymce.baseURL = "/Scripts/tinymce/";
+
+            tinymce.init({
+                selector: 'textarea',
+                relative_urls: false,
+                remove_script_host: false,
+                convert_urls: true,
+                height: 500,
+                language: 'pt_BR',
+                theme: 'modern',
+                setup: function (editor) {
+
+                    var inp = $('<input id="tinymce-uploader" type="file" name="pic" accept="image/*" style="display:none">');
+                    $(editor.getElement()).parent().append(inp);
+
+                    inp.on("change", function () {
+                        var input = inp.get(0);
+                        var file = input.files[0];
+                        var fr = new FileReader();
+                        fr.onload = function () {
+                            var img = new Image();
+                            img.src = fr.result;
+                            editor.insertContent('<img src="' + img.src + '"/>');
+                            inp.val('');
+                        }
+
+                        fr.readAsDataURL(file);
+                    });
+
+                    function toAssinatura() {
+                        return '[(#CAMPO_ASSINATURA#)]';
+                    }
+
+                    function toCampoData() {
+                        return '[(#CAMPO_DATA#)]';
+                    }
+
+                    function toCampoLivre() {
+                        return '[(#CAMPO_LIVRE#)]';
+                    }
+
+                    function insertAss() {
+
+                        var html = toAssinatura();
+                        editor.insertContent(html);
+                    }
+
+                    function insertDate() {
+
+                        var html = toCampoData();
+                        editor.insertContent(html);
+
+                    }
+
+                    function insertField() {
+                        var temp = tinymce.activeEditor.getContent();
+                        var count = (temp.match(/CAMPO_LIVRE/g) || []).length;
+
+                        if (count <= 30) {
+
+                            var html = toCampoLivre();
+                            editor.insertContent(html);
+                        }
+                        else {
+                            alert('Você só pode inserir 30 campos livres!')
+                        }
+                    }
+
+                    function insertImage() {
+                        inp.trigger('click');
+                    }
+
+                    editor.addButton('imageupload', {
+                        image: '/Images/icons/image.png',
+                        tooltip: "Inserir Imagem (Direto - Sem Link)",
+                        onclick: insertImage
+                    }),
+
+                    editor.addButton('assdigital', {
+                        image: '/Images/icons/ass.png',
+                        text: 'Assinatura',
+                        tooltip: "Assinatura Digital do Vendedor",
+                        onclick: insertAss
+                    }),
+
+                    editor.addButton('currentdate', {
+                        image: '/Images/icons/calendar.png',
+                        text: 'Data',
+                        tooltip: "Inserir Data Atual",
+                        onclick: insertDate
+                    }),
+
+                    editor.addButton('opentext', {
+                        //icon: 'insertdatetime',
+                        image: '/Images/icons/text.png',
+                        text: 'Livre',
+                        tooltip: "Inserir Campo Livre",
+                        onclick: insertField
+                    });
+                },
+                plugins: [
+                  'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                  'searchreplace wordcount visualblocks visualchars code fullscreen',
+                  'insertdatetime media nonbreaking save table contextmenu directionality',
+                  'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
+                ],
+                toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | imageupload',
+                toolbar2: 'code print preview media | forecolor backcolor emoticons | codesample help | currentdate opentext | assdigital',
+                image_advtab: true,
+                templates: [
+                  { title: 'Test template 1', content: 'Test 1' },
+                  { title: 'Test template 2', content: 'Test 2' }
+                ]
+            });
+
+        });
+
+    </script>
+}

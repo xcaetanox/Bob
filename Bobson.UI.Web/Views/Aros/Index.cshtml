@@ -1,0 +1,80 @@
+﻿@model Bobson.UI.Web.ArosViewModel
+@using (Html.BeginForm())
+{
+
+    <div>
+        <h3>
+            <b>REGISTRO DE OCORRÊNCIA</b><br>
+            <small>1/5 - Informe o Cliente</small>
+        </h3>
+    </div>
+    <div>
+
+        <div id="cliente">
+            <div class="row">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EstadoDefault, new { @class = "lead" })
+                    @Html.DropDownListFor(model => model.EstadoDefault, new SelectList(@Model.Estados, "Id", "Desc"), new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.EstadoDefault, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CodigoCliente, new { @class = "lead" })
+                    @Html.EditorFor(model => model.CodigoCliente, new { htmlAttributes = new { @class = "form-control  input-lg", @placeholder = "Informe o código" } })
+                    @Html.ValidationMessageFor(model => model.CodigoCliente, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div>
+        <div class="pull-right">
+            <input type="submit" id="btnNext" value="Listar Banheiros" class="btn btn-fill btn-primary" name="Banheiro" formaction="/Aros/Banheiro" />
+        </div>
+        <div class="pull-left">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div id="aErro" class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Erro Ocorrido!</strong> Tente novamente; Se o erro persistir entre em contato com o suporte.
+    </div>
+
+    <div id="aSucesso" class="alert alert-success alert-dismissible" role="alert" style="display: @Model.NovoRegistro">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Sucesso!</strong> A operação foi efetuada com Sucesso
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+
+
+
+    <script type="text/JavaScript">
+
+        $(document).ready(function () {
+
+            //E caso de erro ou sucesso vindo do server (necessidade de mensagem)
+            ApagaMensagem();
+
+        });
+
+        function ApagaMensagem() {
+            if ($("#aSucesso").is(":visible")) {
+                $("#aSucesso").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#aSucesso").slideUp(500);
+                });
+            }
+            if ($("#aErro").is(":visible")) {
+                $("#aErro").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#aErro").slideUp(500);
+                });
+            }
+
+        }
+
+    </script>
+}

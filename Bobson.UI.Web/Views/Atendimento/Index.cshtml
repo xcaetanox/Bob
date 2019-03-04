@@ -1,0 +1,346 @@
+﻿
+@model Bobson.UI.Web.AtendimentoViewModel
+@using Jmelosegui.Mvc.GoogleMap
+@Html.AntiForgeryToken()
+
+
+
+<div>
+    <h3>
+        <font size="2" color="red" style="text-align:center">
+            <b>Contato/Visita Cliente:  @Model.nomeCliente</b><br>
+            </font>
+            @using (Html.BeginForm("proximoCliente", "Atendimento", FormMethod.Get))
+            {
+
+                <button class="btn btn-danger glyphicon glyphicon-forward" type="submit">Próximo Cliente</button>
+
+
+
+
+
+
+
+            }
+
+
+    </h3>
+</div>
+<div>
+
+    <div id="banheiro">
+
+
+        <div class="row">
+
+            <div id="divTabela" class="col-sm-11">
+                <table id='tbDefault' class='table table-striped table-bordered dt-responsive nowrap row-border hover order-column' cellspacing='0' width='100%'>
+                    <thead>
+                        <tr>
+                            <th>
+                                <button class="btn btn-primar add"><i class="glyphicon glyphicon-plus-sign"></i>Novo Registro </button>
+                            </th>
+                           
+                            <th>Data Ocorrência</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fim</th>
+                            <th>Tipo</th>
+                            <th>Obs</th>
+                            
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.atendimentoClienteDTOs)
+
+                        {
+
+
+                        <tr>
+
+                            <td>@item.dataContato</td>
+                            @if (item.dataVisita.ToString() != "01/01/0001 00:00:00")
+                            {
+                                <td>@item.dataVisita</td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                            <td>@item.horaIni</td>
+                            <td>@item.horaFim</td>
+                            <td>@item.tipo</td>
+                            <td>@item.obs</td>
+
+                            @*<button class="btn btn-primary edit" data-id="@item.Id" title="Editar Cadastro Cliente"><i class="glyphicon glyphicon-edit"></i></button>*@
+
+                            @if (item.idTipoAtendimento == 2)
+                            {
+                            <td>
+                                <button class="btn btn-primary mapa" data-longitude="@item.logintude" data-latitude="@item.latitude" 
+                                        data-longitudeCasa="@item.logintude_casa" data-latitudeCasa="@item.latitude_casa" 
+                                        title="Mapa"><i class="glyphicon glyphicon-map-marker"></i></button>
+                            </td>
+                                    }
+
+                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div id="aErro" class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong>Seleção Obrigatória</strong> Selecione um registro, para continuar.
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="modalMapa" class="modal">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Detalhe Cliente</h4>
+            </div>
+
+
+            <div id="map_canvas "class="modal-body">
+                <div id="map_canvas" style="width: 95%; height: 432px" >
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <input type="button" value="Fechar" class="btn btn-default" data-dismiss="modal" />
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+
+</div>
+<div class="modal" id="modal">
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+
+    
+}
+
+<script type="text/JavaScript">
+
+
+
+
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("DetalheAtendimento?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+        })
+
+
+
+        $(".edit").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Atendimento/EditarAtendimento?id=" + id, function () {
+                $("#modal").modal();
+                setaModo();
+            })
+
+        });
+
+
+      
+            
+
+ 
+
+
+        $(".add").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Atendimento/EditarAtendimento?id=" + 0, function () {
+                $("#modal").modal();
+            })
+        });
+
+
+
+        function setaModo() {
+            console.log("alterando");
+            var id = $('#idTipoAtendimento').val();
+            console.log("1");
+            if (id == 2 || id == 4 || id == 5 || id == 7 ) {
+                console.log("2");
+                $("#completo").show();
+            } else {
+                console.log("3");
+
+                $("#completo").hide();
+            }
+
+
+        }
+
+
+    var map = null;
+    //Essa e a funcao que criara o mapa GoogleMaps
+    $(".mapa").click(function () {
+      
+
+        var logintude = $(this).attr("data-longitude");
+        var latitude = $(this).attr("data-latitude");
+
+        var logintude_casa = $(this).attr("data-longitudeCasa");
+        var latitude_casa = $(this).attr("data-latitudeCasa");
+
+        console.log(logintude);
+        console.log(latitude);
+
+        //aqui vamos definir as coordenadas de latitude e longitude no qual
+        //sera exibido o nosso mapa
+        var latlng = new google.maps.LatLng(latitude, logintude); //DEFINE A LOCALIZAÇÃO EXATA DO MAPA
+        //aqui vamos configurar o mapa, como o zoom, o centro do mapa, etc
+        var myOptions = {
+            zoom: 50,//utilizaremos o zoom 15
+            center: latlng,//aqui a nossa variavel constando latitude e
+            //longitude ja declarada acima
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        console.log(document.getElementById("map_canvas"));
+        //criando o mapa dentro da div com o id="map_canvas" que ja criamos
+        map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+        //DEFINE AS COORDENADAS do ponto exato - CENTRALIZAÇÃO DO MAPA
+        map.setCenter(new google.maps.LatLng(latitude, logintude));
+
+        if (latitude_casa != 0) {
+            FazMarcacao(latitude_casa, logintude_casa, true);
+        }
+
+
+
+        FazMarcacao(latitude, logintude);
+
+        
+       
+
+
+    });
+
+    function FazMarcacao(lat, long, casa) {
+
+        var latlong = lat + "," + long;//colocando na conficuracao necessaria (lat,long)
+        var myLatLgn = new google.maps.LatLng(lat, long);
+
+
+        var image = 'https://img.icons8.com/color/30/000000/cottage.png';
+
+        //criando variavel tipo google.maps.LatLng e
+        //passando como parametro a latitude e longitude
+        //na configuracao: latitude,longitude.
+
+        //aproximando o mapa, aumentando o zoom
+        map.setZoom(13);
+
+        //fazendo  a marcacao, usando o latitude e longitude da variavel criada acima
+        if (casa) {
+            var marker = new google.maps.Marker({ position: myLatLgn, map: map, icon: image });
+        } else {
+            var marker = new google.maps.Marker({ position: myLatLgn, map: map });
+        }
+        //aqui a variavel e o comando que faz a marcação
+
+        map.setCenter(myLatLgn);//leva o mapa para a posicao da marcacao
+
+
+        $("#modalMapa").modal("show");
+    }
+
+    function abreLink() {
+        window.open('http://www.google.com.br');
+    }
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            function Verificar()
+                {
+                    var rows = $('#tbDefault tbody tr.selected').length;
+
+                    if (rows <= 0) {
+                        $('#aErro').show();
+                    }
+
+                    return rows > 0;
+                }
+
+                $(document).ready(function () {
+                    StartTable('tbDefault');
+                });
+
+                function StartTable(id) {
+                    id = '#' + id;
+
+                    table = $(id).DataTable({
+                        "iDisplayLength": 25,
+                        "language": {
+                            "url": "@String.Concat(Request.Url.Scheme, "://", Request.Url.Authority, Request.ApplicationPath, "/Content/datatables.net.pt-br.json")"
+                        }
+                    });
+
+
+                    $(id + ' tbody').on('click', 'tr', function () {
+                        if ($(this).hasClass('selected')) {
+                            $(this).removeClass('selected');
+                        }
+                        else {
+                            table.$('tr.selected').removeClass('selected');
+                            $(this).addClass('selected');
+
+                            $('#Tipo').val($(this).attr('tipo'));
+                            $('#Local').val($(this).attr('local'));
+                        }
+                    });
+                }
+</script>
+}

@@ -1,0 +1,121 @@
+﻿@model  Bobson.UI.Web.Models.LogPropostaViewModel
+@{
+    ViewBag.Title = "Relatórios";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-horizontal">
+
+    <h4>Controle de Propostas</h4>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Usuario, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Usuario, new SelectList(@Model.Usuarios, "Id", "Desc"), new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataInicio, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataInicio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DataInicio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataFim, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataFim, new { htmlAttributes = new { @class = "form-control"  } })
+                @Html.ValidationMessageFor(model => model.DataFim, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Listar" id="btnFiltrar" class="btn btn-primary" formaction="/Relatorio/ExecutarLogPropostas" />
+            </div>
+        </div>
+    }
+    <br />
+
+    <table id="tbRelatorio" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Representante</th>
+                <th>Proposta</th>
+                <th>Assunto</th>
+                <th>Cliente</th>
+                <th>Cópia</th>
+                <th>Corpo</th>
+                <th>Valores</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Propostas != null)
+            {
+                while (Model.Propostas.Read())
+                {
+            <tr data-id="@Model.Propostas["id"].ToString()">
+                <td>@Model.Propostas["data"].ToString()</td>
+                <td>@Model.Propostas["usuario"].ToString()</td>
+                <td>@Model.Propostas["modelo"].ToString()</td>
+                <td>@Model.Propostas["email_assunto"].ToString()</td>
+                <td>@Model.Propostas["email_cliente"].ToString()</td>
+                <td>@Model.Propostas["email_copia"].ToString()</td>
+                <td>@Html.Raw(Model.Propostas["email_corpo"].ToString())</td>
+                <td>
+                    <a href='@Url.Action("StartView", "Relatorio",new { id =  @Model.Propostas["view_name"].ToString(),modelParam  =  @Model.Propostas["view_model"]  })'>
+                        Proposta
+                    </a>
+
+
+
+                </td>
+            </tr>
+                }
+            }
+            @if (Model.Propostas != null && !Model.Propostas.IsClosed)
+            {
+                Model.Propostas.Close();
+                Model.Conexao.Close();
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+
+    <script type="text/JavaScript">
+
+        $(document).ready(function () {
+            $('#tbRelatorio').DataTable({
+                "language": {
+                    "url": "@String.Concat(Request.Url.Scheme, "://", Request.Url.Authority, Request.ApplicationPath, "/Content/datatables.net.pt-br.json")"
+                },
+                dom: 'Bfrtip',
+                buttons: ['copy', 'csv', 'excel', {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'
+                }, 'print']
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,17 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Falha na Autorização";
+}
+<div class="jumbotron">
+    <h1 class="text-warning">Falta de Permissão.</h1>
+    @{
+        if (String.IsNullOrEmpty(ViewBag.Message))
+        {
+            <h2 class="text-warning">Me desculpe, você não está autorizado a executar esta operação.</h2>
+        }
+        else
+        {
+            <h2 class="text-warning">@ViewBag.Message</h2>
+        }
+    }
+</div>

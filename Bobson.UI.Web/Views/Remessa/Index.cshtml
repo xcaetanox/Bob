@@ -1,0 +1,561 @@
+﻿@model Bobson.UI.Web.RemessaViewModel
+
+@{
+    ViewBag.Title = "Correio e Transportadoras";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-horizontal">
+
+    <h4>Controle de Remessas</h4>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Local, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Local, new SelectList(@Model.Filiais, "Id", "Desc"), new { @id = "ddlLocal", @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Dia, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Dia, new SelectList(@Model.Dias, "Id", "Desc"), new { @id = "ddlDias", @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Atualizar" id="btnFiltrar" class="btn btn-primary" formnovalidate="formnovalidate" />
+            </div>
+        </div>
+    }
+    <br />
+
+    <div id="aErro" class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Erro Ocorrido!</strong> Tente novamente; Se o erro persistir entre em contato com o suporte.
+    </div>
+
+    <div id="aSucesso" class="alert alert-success alert-dismissible" role="alert" style="display: @Model.NovoRegistro">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Sucesso!</strong> A operação foi efetuada com Sucesso
+    </div>
+
+    <!-- Navegação -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#tabs-1" aria-controls="tabs-1" role="tab" data-toggle="tab">Enviados</a></li>
+        <li role="presentation"><a href="#tabs-2" aria-controls="tabs-2" role="tab" data-toggle="tab">Recebidos/Receber</a></li>
+        <li role="presentation"><a href="#tabs-3" aria-controls="tabs-3" role="tab" data-toggle="tab">Novo Envio</a></li>
+    </ul>
+
+    <!-- Paineis -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="tabs-1">
+            <br />
+            <table id="tbEnviados" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Destino</th>
+                        <th>Enviado dia</th>
+                        <th>Via</th>
+                        <th>Identificaçao Objeto</th>
+                        <th>Recebimento</th>
+                        <th>Descrição Objeto</th>
+                        <th>Observações</th>
+                        <th>Enviado para</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Enviados)
+                    {
+                        <tr>
+                            <td align='center'>
+
+                                @if (item.DataRecebimento == null)
+                                {
+                                    <button name="btnDeletar" id='@String.Concat("btnDeletar_", item.Id)' title="Excluir Remessa" type="button" aria-disabled="false" class="btn btn-default" data-target="#popExclusao" data-toggle="modal" data-id="@item.Id">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                    <button name="btnEditar" id='@String.Concat("btnEditar_", item.Id)' title="Editar Numero Rastreio" type="button" aria-disabled="false" class="btn btn-default" data-target="#popEditar" data-toggle="modal" data-targetUrl="/Remessa/Editar/" data-id="@item.Id">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </button>
+                                }
+
+                            </td>
+                            <td>@item.DescDestino</td>
+                            <td>@item.Enviado</td>
+                            <td>@item.DescFormaEnvio</td>
+                            <td id='@String.Concat("tdedt_", item.Id)'>
+                                @if (item.FormaEnvio == 1)
+                                {
+                                    @Html.Hyperlink(item.UrlRastreio, item.NumeroControle, "_blank")
+                                }
+                                else
+                                {
+                                    @item.NumeroControle
+                                }
+                            </td>
+                            <td align='center'>
+                                @item.Recebido
+                            </td>
+                            <td>@item.DescricaoObjeto</td>
+                            <td>@item.Observacoes</td>
+                            <td>@item.ResponsavelRecebimento</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tabs-2">
+            <br />
+            <table id="tbRecebidos" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>Recebimento</th>
+                        <th>Origem</th>
+                        <th>Enviado</th>
+                        <th>Forma Envio</th>
+                        <th>Identificaçao Objeto</th>
+                        <th>Descrição Objeto</th>
+                        <th>Observações</th>
+                        <th>Para Quem</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Recebidos)
+                    {
+                        <tr>
+                            <td align='center' id='@String.Concat("tdrid_", item.Id)'>
+
+                                @if (item.DataRecebimento == null)
+                                {
+                                    <button id="btnAbrir" title="Receber Remessa" type="button" aria-disabled="false" class="btn btn-default" data-target="#postDialog" data-toggle="modal" data-targetUrl="/Remessa/Receber/" data-id="@item.Id">
+                                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                                    </button>
+                                }
+                                else
+                                {
+                                    @item.Recebido
+                                }
+                            </td>
+                            <td>@item.DescOrigem</td>
+                            <td>@item.Enviado</td>
+                            <td>@item.DescFormaEnvio</td>
+                            <td>
+                                @if (item.FormaEnvio == 1)
+                                {
+                                    @Html.Hyperlink(item.UrlRastreio, item.NumeroControle, "_blank") }
+                                else
+                                {
+                                    @item.NumeroControle }
+                            </td>
+                            <td>@item.DescricaoObjeto</td>
+                            <td>@item.Observacoes</td>
+                            <td>@item.ResponsavelRecebimento</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tabs-3">
+            <br />
+            @using (Html.BeginForm("Criar", "Remessa"))
+            {
+                @Html.HiddenFor(m => m.Origem, new { @id = "origem" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DescricaoOrigem, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DescricaoOrigem, new { htmlAttributes = new { @class = "form-control", disabled = "true" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ResponsavelEnvio, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ResponsavelEnvio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ResponsavelEnvio, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Destino, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Destino, new SelectList(@Model.Filiais.Where(i => !i.Id.Trim().Equals(@Model.Origem.ToString().Trim())).ToList(), "Id", "Desc"), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Destino, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ResponsavelRecebimento, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ResponsavelRecebimento, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ResponsavelRecebimento, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FormaEnvio, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.FormaEnvio, new SelectList(@Model.Transportes, "Id", "Desc"), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FormaEnvio, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NumeroControle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NumeroControle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NumeroControle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DescricaoObjeto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DescricaoObjeto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DescricaoObjeto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Observacoes, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Observacoes, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Observacoes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Salvar" class="btn btn-primary" />
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<!-- PopUP Recebimento -->
+<div class="modal fade" id="postDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Recebimento de Remessa</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <div class="form-group">
+                    @Html.Label("Responsável", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Hidden(("hdnTargetUrl"))
+                        @Html.Hidden(("hdnId"))
+                        @Html.Editor("txtResponsavel", new { htmlAttributes = new { @class = "form-control", @MaxLength = 45 } })
+                    </div>
+                </div>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnReceber" class="btn btn-primary" onclick="Receber($('#hdnTargetUrl').val(), $('#hdnId').val(), $('#txtResponsavel').val());">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PopUP Confirmação Exclusão -->
+<div class="modal fade" id="popExclusao" tabindex="-1" role="dialog" aria-labelledby="popExclusaoLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="popExclusaoLabel">Exclusão de Remessa</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                @Html.Hidden(("hdnIdExclusao"))
+                Tem certeza que deseja excluir o registro <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnExcluir" class="btn btn-primary" onclick="Deletar($('#hdnIdExclusao').val());">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- PopUP Editar -->
+<div class="modal fade" id="popEditar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Informe o Numero de Rastreio</h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <div class="form-group">
+                    @Html.Label("Identificação", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.Hidden(("hdnEditarTargetUrl"))
+                        @Html.Hidden(("hdnEditarId"))
+                        @Html.Editor("txtObjeto", new { htmlAttributes = new { @class = "form-control", @MaxLength = 45 } })
+                    </div>
+                </div>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnEditar" class="btn btn-primary" onclick="Editar($('#hdnEditarTargetUrl').val(), $('#hdnEditarId').val(), $('#txtObjeto').val());">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+
+    <script type="text/JavaScript">
+        var tbEnviados;
+        var tbRecebidos;
+
+        function Editar(targetUrl, id, objeto) {
+
+            $.ajax({
+                url: targetUrl,
+                data: { 'id': id, 'objeto': objeto },
+                type: 'POST',
+                success: function (data) {
+                    if (data.success) {
+                        $('#popEditar').modal('hide');
+                        var tdid = '#tdedt_' + id;
+                        $(tdid).html(objeto);
+
+                        $("#aSucesso").alert();
+                        $("#aSucesso").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#aSucesso").slideUp(500);
+                        });
+
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    var errorMessage = xhr.responseText;
+                    errorMessage = errorMessage.substring(errorMessage.indexOf('<title>') + 7, errorMessage.indexOf('</title>'));
+
+                    $("#aErro").alert();
+                    $("#aErro").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#aErro").slideUp(500);
+                    });
+
+                }
+            });
+        }
+
+
+        function Receber(targetUrl, id, responsavel) {
+            $.ajax({
+                url: targetUrl,
+                data: { 'id': id, 'responsavel': responsavel },
+                type: 'POST',
+                success: function (data) {
+                    if (data.success) {
+                        $('#postDialog').modal('hide');
+                        var tdid = '#tdrid_' + id;
+                        $(tdid).html('Agora (' + responsavel + ')');
+
+                        $("#aSucesso").alert();
+                        $("#aSucesso").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#aSucesso").slideUp(500);
+                        });
+
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    var errorMessage = xhr.responseText;
+                    errorMessage = errorMessage.substring(errorMessage.indexOf('<title>') + 7, errorMessage.indexOf('</title>'));
+
+                    $("#aErro").alert();
+                    $("#aErro").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#aErro").slideUp(500);
+                    });
+
+                }
+            });
+        }
+
+        function Deletar(id) {
+            $.ajax({
+                url: '/Remessa/Excluir/',
+                data: { 'id': id },
+                type: 'POST',
+                success: function (data) {
+                    if (data.success) {
+                        $('#popExclusao').modal('hide');
+                        $('#btnDeletar_' + id).closest('tr').addClass('selected');
+                        tbEnviados.row('.selected').remove().draw(false);
+
+                        $("#aSucesso").alert();
+                        $("#aSucesso").fadeTo(2000, 500).slideUp(500, function () {
+                            $("#aSucesso").slideUp(500);
+                        });
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    var errorMessage = xhr.responseText;
+                    errorMessage = errorMessage.substring(errorMessage.indexOf('<title>') + 7, errorMessage.indexOf('</title>'));
+
+                    $("#aErro").alert();
+                    $("#aErro").fadeTo(2000, 500).slideUp(500, function () {
+                        $("#aErro").slideUp(500);
+                    });
+
+                }
+            });
+        }
+
+        function ApagaMensagem() {
+            if ($("#aSucesso").is(":visible")) {
+                $("#aSucesso").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#aSucesso").slideUp(500);
+                });
+            }
+            if ($("#aErro").is(":visible")) {
+                $("#aErro").fadeTo(2000, 500).slideUp(500, function () {
+                    $("#aErro").slideUp(500);
+                });
+            }
+
+        }
+
+
+        $(document).ready(function () {
+
+            $('#ddlLocal').on('change', function () {
+                $('#btnFiltrar').click();
+            });
+
+            $('#ddlDias').on('change', function () {
+                $('#btnFiltrar').click();
+            });
+
+            //E caso de erro ou sucesso vindo do server (necessidade de mensagem)
+            ApagaMensagem();
+
+            tbEnviados = $('#tbEnviados').DataTable({
+
+                "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                    switch ($.trim(aData[5])) {
+                        case '-//-':
+                            $(nRow).css("font-weight", "normal")
+                            break;
+                        default:
+                            $(nRow).css("background-color", "#e1ede1")
+                            break;
+                    }
+                },
+
+                "language": {
+                    "url": "@String.Concat(Request.Url.Scheme, "://", Request.Url.Authority, Request.ApplicationPath, "/Content/datatables.net.pt-br.json")"
+                }
+            });
+
+            $('#tbEnviados tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+
+            tbRecebidos = $('#tbRecebidos').DataTable({
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if ($.trim(aData[0]).indexOf("btnAbrir") < 0) {
+                            $(nRow).css("background-color", "#e1ede1")
+                    }
+                },
+
+                "language": {
+                    "url": "@String.Concat(Request.Url.Scheme, "://", Request.Url.Authority, Request.ApplicationPath, "/Content/datatables.net.pt-br.json")"
+                }
+            });
+
+            $('#tbRecebidos tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+
+
+            $('button[name=btnEditar]').on('click', function () {
+                $('#popEditar').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+
+                    var targetUrl = button.attr('data-targetUrl');
+                    var id = button.attr('data-id');
+
+                    var modal = $(this);
+                    modal.find('.modal-body #hdnEditarTargetUrl').val(targetUrl);
+                    modal.find('.modal-body #hdnEditarId').val(id);
+                });
+            });
+
+
+            $('#btnAbrir').on('click', function () {
+                $('#postDialog').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+
+                    var targetUrl = button.attr('data-targetUrl');
+                    var id = button.attr('data-id');
+
+                    var modal = $(this);
+                    modal.find('.modal-body #hdnTargetUrl').val(targetUrl);
+                    modal.find('.modal-body #hdnId').val(id);
+                });
+            });
+
+
+            $('button[name=btnDeletar]').on('click', function () {
+
+                $('#popExclusao').on('show.bs.modal', function (event) {
+                    var button = $(event.relatedTarget);
+
+                    var id = button.attr('data-id');
+
+                    var modal = $(this);
+                    modal.find('.modal-body #hdnIdExclusao').val(id);
+                });
+            });
+
+
+        });
+
+    </script>
+}

@@ -1,0 +1,156 @@
+﻿@model Bobson.UI.Web.ClienteViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Edit";
+}
+
+
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm("SalvaCliente", "Dash", FormMethod.Post))
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Editar/Cadastrar Cliente</h4>
+            </div>
+
+            @Html.AntiForgeryToken()
+
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.Id, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.cliente.Id, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.cliente.Id)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.nome_cliente, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.cliente.nome_cliente, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.cliente.nome_cliente)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.contato, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.cliente.contato, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.cliente.contato)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.telefone, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.cliente.telefone, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.cliente.telefone)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.email, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.cliente.email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.cliente.email)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.idSegmento, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(x => Model.cliente.idSegmento, new SelectList(Model.sgmentos, "Id", "descricao"), htmlAttributes: new { @class = "form-control", id = "idSegmento" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.situacaoClienteVendendor, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.cliente.situacaoClienteVendendor, new SelectListItem[]{
+                            new SelectListItem() {Text = "NEGOCIANDO", Value="NEGOCIANDO"},
+                            new SelectListItem() {Text = "TESTE", Value="TESTE"},
+                            new SelectListItem() {Text = "APROVADO", Value="APROVADO"},
+                                 new SelectListItem() {Text = "NÃO APROVADO", Value="NÃO APROVADO"},
+                                      new SelectListItem() {Text = "LIGAR NO FUTURO", Value="LIGAR NO FUTURO"}
+
+
+
+
+                       }, htmlAttributes: new { @class = "form-control", id = "statusCliente", @onchange = "setaModo()" })
+
+
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+                    <div id="dataLigar" class="form-group" hidden>
+                        @Html.LabelFor(model => model.cliente.ligarNoFuturoData, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.cliente.ligarNoFuturoData, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                            @Html.ValidationMessageFor(model => model.cliente.ligarNoFuturoData)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.Ad, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.cliente.Ad, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0", @class = "form-control", style = "width: 100px;" } })
+                            @Html.ValidationMessageFor(model => model.cliente.Ad)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.Os, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.cliente.Os, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0", @class = "form-control", style = "width: 100px;" } })
+                            @Html.ValidationMessageFor(model => model.cliente.Os)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.tapete, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.cliente.tapete, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0", @class = "form-control", style = "width: 100px;" } })
+                            @Html.ValidationMessageFor(model => model.cliente.tapete)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.aro, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.cliente.aro, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0", @class = "form-control", style = "width: 100px;" } })
+                            @Html.ValidationMessageFor(model => model.cliente.aro)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.secador, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.cliente.secador, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0", @class = "form-control", style = "width: 100px;" } })
+                            @Html.ValidationMessageFor(model => model.cliente.secador)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cliente.fioDental, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.cliente.fioDental, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0", @class = "form-control", style = "width: 100px;" } })
+                            @Html.ValidationMessageFor(model => model.cliente.fioDental)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" />
+            </div>
+        }
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

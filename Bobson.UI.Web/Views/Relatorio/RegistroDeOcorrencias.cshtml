@@ -1,0 +1,116 @@
+﻿@model  Bobson.UI.Web.Models.RegistroDeOcorrenciasViewModel
+@{
+    ViewBag.Title = "Relatórios";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-horizontal">
+
+    <h4>Registro de Ocorrências</h4>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EstadoDefault, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.EstadoDefault, new SelectList(@Model.Estados, "Id", "Desc"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EstadoDefault, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CodigoCliente, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CodigoCliente, new { htmlAttributes = new { @class = "form-control", @placeholder = "Informe o código" } })
+                @Html.ValidationMessageFor(model => model.CodigoCliente, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Listar" id="btnFiltrar" class="btn btn-primary" formaction="/Relatorio/ExecutarRelatorioOcorrencias" />
+            </div>
+        </div>
+    }
+    <br />
+
+    <table id="tbRelatorio" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>UF</th>
+                <th>Cliente</th>
+                <th>Local</th>
+                <th>Tipo</th>
+                <th>Hora Liga</th>
+                <th>Desliga</th>
+                <th>Aroma</th>
+                <th>Nevoa Solta</th>
+                <th>Para</th>
+                <th>Observações</th>
+                <th>Data Ocorrência</th>
+                <th>Acontecimento</th>
+                <th>Peso Refil</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Ocorrencias != null)
+            {
+                while (Model.Ocorrencias.Read())
+                {
+                <tr>
+                    <td>@Model.Ocorrencias["uf"].ToString()</td>
+                    <td>@Model.Ocorrencias["codigo_cliente"].ToString()</td>
+                    <td>@Model.Ocorrencias["local"].ToString()</td>
+                    <td>@Model.Ocorrencias["tipo"].ToString()</td>
+                    <td>@Model.Ocorrencias["hora_liga"].ToString()</td>
+                    <td>@Model.Ocorrencias["hora_desliga"].ToString()</td>
+                    <td>@Model.Ocorrencias["aroma"].ToString()</td>
+                    <td>@Model.Ocorrencias["nevoa_solta"].ToString()</td>
+                    <td>@Model.Ocorrencias["nevoa_para"].ToString()</td>
+                    <td>@Model.Ocorrencias["observacoes"].ToString()</td>
+                    <td>@Model.Ocorrencias["data_ocorrencia"].ToString()</td>
+                    <td>@Model.Ocorrencias["acontecimento"].ToString()</td>
+                    <td>@Model.Ocorrencias["peso_refil"].ToString()</td>
+                </tr>
+                }
+            }
+            @if (Model.Ocorrencias != null && !Model.Ocorrencias.IsClosed)
+            {
+                Model.Ocorrencias.Close();
+                Model.Conexao.Close();
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datatables")
+
+    <script type="text/JavaScript">
+
+        $(document).ready(function () {
+            $('#tbRelatorio').DataTable({
+                "language": {
+                    "url": "@String.Concat(Request.Url.Scheme, "://", Request.Url.Authority, Request.ApplicationPath, "/Content/datatables.net.pt-br.json")"
+                },
+                dom: 'Bfrtip',
+                buttons: ['copy', 'csv', 'excel', {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'
+                }, 'print']
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{314FFF0E-98CD-4CFB-8356-D1085CDD7862}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Bobson.Core.DAO</RootNamespace>
+    <AssemblyName>Bobson.Core.DAO</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AtendimentoClienteDAO.cs" />
+    <Compile Include="TipoAtendimentoDAO.cs" />
+    <Compile Include="SegmentoDAO.cs" />
+    <Compile Include="ClienteDAO.cs" />
+    <Compile Include="ConfigEmailUsuarioDAO.cs" />
+    <Compile Include="UsuariosDAO.cs" />
+    <Compile Include="ArosDAOPartials\DropDowns.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Base\BaseDAO.cs" />
+    <Compile Include="Base\DbCommandHelper.cs" />
+    <Compile Include="Base\DbConnectionManager.cs" />
+    <Compile Include="Base\IDbConnectionManager.cs" />
+    <Compile Include="ArosDAO.cs" />
+    <Compile Include="ArosDAOPartials\Propostas.cs" />
+    <Compile Include="ArosDAOPartials\Relatorios.cs" />
+    <Compile Include="ArosDAOPartials\Remessas.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bobson.Core.Base\Bobson.Core.Base.csproj">
+      <Project>{fd67cb58-722d-4f37-b936-723a7b419f74}</Project>
+      <Name>Bobson.Core.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bobson.Core.DTO\Bobson.Core.DTO.csproj">
+      <Project>{4df9e7ad-a4d4-4edd-8fcc-bb41b3986d3b}</Project>
+      <Name>Bobson.Core.DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Dump\Dump20170513.sql" />
+    <Content Include="Dump\Dump20170515.sql" />
+    <Content Include="Dump\Dump20170919.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dump\Dump20170514.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

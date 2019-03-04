@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+  <mvcSiteMapNode title="Home" controller="Home" action="Index">
+    <mvcSiteMapNode title="Sobre" controller="Home" action="About"/>
+    <mvcSiteMapNode title="Contato" controller="Home" action="Contact"/>
+    <mvcSiteMapNode title="Entrar" controller="Account" action="Login"/>
+    <mvcSiteMapNode title="Cadastrar" controller="Account" action="Register"/>
+    <mvcSiteMapNode title="Minha Conta" controller="Manage" action="Index">
+      <mvcSiteMapNode title="Meus Dados" controller="Account" action="Edit"/>
+      <mvcSiteMapNode title="Mudar Senha" controller="Manage" action="ChangePassword"/>
+    </mvcSiteMapNode>
+    <mvcSiteMapNode title="Modelos" controller="Template" action="Index"/>
+    <mvcSiteMapNode title="Cabeçalho/Rodapé" controller="Template" action="CabecalhoRodape"/>
+    <mvcSiteMapNode title="Relatórios" controller="Relatorio" action="RegistroDeOcorrencias"/>
+    <mvcSiteMapNode title="Sincronização" controller="ArosSync" action="Index"/>
+    <mvcSiteMapNode title="Proposta" controller="Template" action="StartView"/>
+    <mvcSiteMapNode title="Area Técnica" controller="Aros" action="Index"/>
+    <mvcSiteMapNode title="Remessas" controller="Remessa" action="Index"/>
+    
+  </mvcSiteMapNode>
+</mvcSiteMap>

@@ -1,0 +1,239 @@
+﻿@model Bobson.UI.Web.ClienteViewModel
+
+    @Html.AntiForgeryToken()
+
+
+
+    <div>
+        <h3>
+            <b>Clientes</b><br>
+
+        </h3>
+    </div>
+    <div>
+        
+        <div id="banheiro">
+
+
+            <div class="row">
+
+                <div id="divTabela" class="col-sm-11">
+                    <table id='tbDefault' class='table table-striped table-bordered dt-responsive nowrap row-border hover order-column' cellspacing='0' width='100%'>
+                        <thead>
+                            <tr>
+
+                                <th>Nome</th>
+                                <th>Contato</th>
+                                <th>Telefone</th>
+                                <th>E-mail</th>
+                                <th>Status</th>
+                                <th>
+                                    <button class="btn btn-primar add"><i class="glyphicon glyphicon-plus-sign"></i>Novo Cliente </button>
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.clientes)
+                            {
+                                <tr>
+                                    <td colspan="6">@item.status Status do Cliente : @item.situacaoClienteVendendor</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6">AD: @item.Ad | OS:@item.Os | Tapete:@item.tapete | Aro:@item.aro | Secador:@item.secador | Fio Dental:@item.fioDental </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font size="2" color="red" style="text-align:center">
+
+                                            <b> Nome do Cliente : @item.nome_cliente</b>
+                                            </font>
+                                    </td>
+                                    <td>@item.contato</td>
+                                    <td>@item.telefone</td>
+                                    <td>@item.email</td>
+
+
+
+                                    <td>
+                                        <button class="btn btn-primary edit" data-id="@item.Id" title="Editar Cadastro Cliente"><i class="glyphicon glyphicon-edit"></i></button>
+                                        @*<button class="btn btn-primary details" data-id="@item.Id" title="Detalhes"><i class="glyphicon glyphicon-file"></i></button>*@
+                                        <button class="btn btn-danger atendimnento" data-id="@item.Id" data-nome="@item.nome_cliente" title="Histórico Cliente"><i class="glyphicon glyphicon-list-alt"></i></button>
+
+
+
+
+
+                                        @*<button class="btn btn-primary xx" data-id="@item.Id"><i class="glyphicon glyphicon-align-center"></i></button>*@
+
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div id="aErro" class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>Seleção Obrigatória</strong> Selecione um registro, para continuar.
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="modal" id="modal">
+
+    </div>
+
+
+    <!--Area dos modais  -->
+    <!--Modal editar Grava Cliente  -->
+    <!-- Modal -->
+
+    
+
+
+
+
+
+
+
+
+
+ 
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/datatables")
+
+
+    <script type="text/JavaScript">
+
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("DetalheCliente?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+        })
+
+
+        
+        $(".edit").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("EditarCliente?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+
+
+        $(".add").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("EditarCliente?id=" + 0, function () {
+                $("#modal").modal();
+            })
+        });
+
+        $(".atendimnento").click(function () {
+            var id = $(this).attr("data-id");
+            var nome = $(this).attr("data-nome");
+            window.location = "AtendimentoCliente?id=" +id+"&nome="+nome;
+
+         
+        });
+
+        
+
+        
+        function setaModo() {
+         
+            var texto = $('#statusCliente').val();
+          
+            if (texto == "LIGAR NO FUTURO") {
+                console.log("2");
+                $("#dataLigar").show();
+            } else {
+                console.log("3");
+
+                $("#dataLigar").hide();
+            }
+
+
+        }  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                function Verificar()
+                {
+                    var rows = $('#tbDefault tbody tr.selected').length;
+
+                    if (rows <= 0) {
+                        $('#aErro').show();
+                    }
+
+                    return rows > 0;
+                }
+
+                $(document).ready(function () {
+                    StartTable('tbDefault');
+                });
+
+                function StartTable(id) {
+                    id = '#' + id;
+
+                    table = $(id).DataTable({
+                        "iDisplayLength": 25,
+                        "language": {
+                            "url": "@String.Concat(Request.Url.Scheme, "://", Request.Url.Authority, Request.ApplicationPath, "/Content/datatables.net.pt-br.json")"
+                        }
+                    });
+
+
+                    $(id + ' tbody').on('click', 'tr', function () {
+                        if ($(this).hasClass('selected')) {
+                            $(this).removeClass('selected');
+                        }
+                        else {
+                            table.$('tr.selected').removeClass('selected');
+                            $(this).addClass('selected');
+
+                            $('#Tipo').val($(this).attr('tipo'));
+                            $('#Local').val($(this).attr('local'));
+                        }
+                    });
+                }
+            </script>
+        }

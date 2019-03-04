@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{974E64E2-B6FD-47FB-BCDF-58305AE7F14E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Bobson.Core.Facade</RootNamespace>
+    <AssemblyName>Bobson.Core.Facade</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DefaultFacade.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bobson.Core.Base\Bobson.Core.Base.csproj">
+      <Project>{fd67cb58-722d-4f37-b936-723a7b419f74}</Project>
+      <Name>Bobson.Core.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bobson.Core.DAO\Bobson.Core.DAO.csproj">
+      <Project>{314fff0e-98cd-4cfb-8356-d1085cdd7862}</Project>
+      <Name>Bobson.Core.DAO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bobson.Core.DTO\Bobson.Core.DTO.csproj">
+      <Project>{4df9e7ad-a4d4-4edd-8fcc-bb41b3986d3b}</Project>
+      <Name>Bobson.Core.DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

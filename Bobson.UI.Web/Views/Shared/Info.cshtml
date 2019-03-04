@@ -1,0 +1,17 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Informação";
+}
+<div class="jumbotron">
+    <h1 class="text-info">@ViewBag.Title</h1>
+    @{
+        if (String.IsNullOrEmpty(ViewBag.Message))
+        {
+            <h2 class="text-info">Operação efetuada com Sucesso!</h2>
+        }
+        else
+        {
+            <h2 class="text-info">@ViewBag.Message</h2>
+        }
+    }
+</div>

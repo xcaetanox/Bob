@@ -1,0 +1,46 @@
+﻿@model System.Boolean?
+@{
+    Layout = null;
+}
+
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="nav navbar-nav navbar-right">
+            @if (Model != null && (bool)Model)
+            {
+                <li class="dropdown">
+                    <a href="#" title="Administrar Sistema" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i>&nbsp;Administração</a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">Proposta</li>
+                        <li><a title="Manutenção de Modelos de Proposta" href="/Template/Index"><i class="glyphicon glyphicon-duplicate"></i>&nbsp;Manutenção Propostas</a></li>
+                        <li><a title="Manutenção do Cabeçalho/Rodapé dos Modelos de Proposta" href="/Template/CabecalhoRodape"><i class="fa fa-header"></i>&nbsp;Manutenção Cabeçalho/Rodapé</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Relatórios</li>
+                        <li><a title="Relatório de Propostas enviadas" href="/Relatorio/LogPropostas"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Relatório Propostas</a></li>
+                        <li><a title="Relatório de Registro de Ocorrência Técnica" href="/Relatorio/RegistroDeOcorrencias"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Relatório Ocorrência</a></li>
+                        <li><a title="Relatório de Remessas Excluídas" href="/Relatorio/RemessasExcluidas"><i class="glyphicon glyphicon-list-alt"></i>&nbsp;Remessas Excluídas</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Integração</li>
+                        <li><a title="Importadas dados dos Sistema Acess" href="/ArosSync/Index"><i class="glyphicon glyphicon-cloud-upload"></i>&nbsp;Importar Dados</a></li>
+                    </ul>
+                </li>
+            }
+
+            <li><a title="Gerenciar Conta" href="/Manage/Index"><i class="glyphicon glyphicon-user"></i>&nbsp;@String.Concat("Olá ", User.Identity.GetUserName().Split('@')[0], "!")</a></li>
+
+            <li><a title="Sair" href="javascript:document.getElementById('logoutForm').submit()"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Sair&nbsp;&nbsp; </a></li>
+
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a id="registerLink" title="Gerenciar Conta" href="/Account/Register"><i class="glyphicon glyphicon-user"></i>&nbsp;Cadastrar</a></li>
+        <li><a id="loginLink" title="Gerenciar Conta" href="/Account/Login"><i class="glyphicon glyphicon-log-in"></i>&nbsp;Entrar</a></li>
+    </ul>
+}

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4DF9E7AD-A4D4-4EDD-8FCC-BB41B3986D3B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Bobson.Core.DTO</RootNamespace>
+    <AssemblyName>Bobson.Core.DTO</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AtendimentoClienteDTO.cs" />
+    <Compile Include="RelPerformanceTotaisDTO.cs" />
+    <Compile Include="RelPerformanceDTO .cs" />
+    <Compile Include="StatusCliente.cs" />
+    <Compile Include="TipoAtendimentoDTO.cs" />
+    <Compile Include="SituacaoDTO .cs" />
+    <Compile Include="SegmentoDTO.cs" />
+    <Compile Include="HistoricoPropostaDTO.cs" />
+    <Compile Include="HourRangeDTO.cs" />
+    <Compile Include="LogDTO.cs" />
+    <Compile Include="ModeloDocumentoDTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BaseDTO.cs" />
+    <Compile Include="ArosDTO.cs" />
+    <Compile Include="DDLDTO.cs" />
+    <Compile Include="RemessaDTO.cs" />
+    <Compile Include="ClienteDTO.cs" />
+    <Compile Include="ConfigUsuarioEmailDTO.cs" />
+    <Compile Include="UsuariosDTO.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

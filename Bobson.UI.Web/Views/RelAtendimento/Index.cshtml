@@ -1,0 +1,506 @@
+﻿@model Bobson.UI.Web.PerformanceUsuarioViewModel
+
+
+@Html.AntiForgeryToken()
+    @using (Html.BeginForm("FiltraPerfomance", "RelAtendimento", FormMethod.Post))
+    {
+        if (!Model.isPdf)
+        {
+            <div id="divFiltros" class="form-inline">
+                @if (Model.gerenteAdm)
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.usuarioSelecionado.Nome, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(x => Model.IdUsuario, new SelectList(Model.usuarios, "Id", "Nome"), htmlAttributes: new { @class = "form-control", Id = "IdUsuario" })
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    @Html.Label("Data Inicio")
+                    @Html.EditorFor(model => model.dtInicio, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.dtInicio, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.Label("Data Final")
+                    @Html.EditorFor(model => model.dtFim, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.dtFim, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Filtrar" class="btn btn-primary" />
+                </div>
+           </div>
+
+            
+         }
+
+    }
+        <div class="col-md-3">
+            <br>
+            <div class="form-group">
+                @using (Html.BeginForm("PDFConfigurado", "RelAtendimento", FormMethod.Post))
+                {
+                    <div class="row col-lg-10">
+                        <input type="submit" value="PDF" class="btn btn-primary" />
+                    </div>
+
+                }
+            </div>
+            </div>
+            <div class="row">
+                <br>
+                <div class="col-md-12">
+                    <table id='tbDefault' class='col-md-2'>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Total Aperelhos Neg ou Teste
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    AD
+                                </td>
+                                <td>
+                                    @Model.totalAD
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    OS
+                                </td>
+                                <td>
+                                    @Model.totalOS
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Tapete
+                                </td>
+                                <td>
+                                    @Model.totalTAPETE
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Orçamentos
+                                </td>
+                                <td>
+                                    @Model.totalOrcamentos
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                    <div class="col-md-2">
+                        <font size="2" color="red" style="text-align:center">
+                            Este é o Total de APARELHOS QUE <BR>
+                            você está NEGOCIANDO ou em TESTE.<br>
+                            Você sabe que a Boboson espera uma<br>
+                            um total de negociaçoes acima de 250 máquinas.
+
+                            <br />
+                            Total:@Model.totalMaquinaNegociando
+                        </font>
+
+
+                    </div>
+
+                    <div class="col-md-2">
+                        <font size="2" color="blue" style="text-align:center">
+                            Este é o Total de CLIENTES QUE <BR>
+                            você está NEGOCIANDO ou em TESTE.<br>
+                            Você sabe que a Boboson espera uma<br>
+                            um total de negociaçoes acima de 30 Clientes.
+                            <br>
+                            Total:  @Model.totalClienteNegociando
+                        </font>
+                    </div>
+
+                </div>
+
+            </div>
+            <hr />
+            <div class="col-md-12" style="text-align:center">
+
+
+                @if (Model.totalMaquinaNegociando >= 250)
+                {
+                    <font size="2" color="blue">
+                        COTA DE MAQUINAS OK! <BR>
+                    </font>
+                }
+                else
+                {
+                    <font size="2" color="RED">
+                        COTA DE MAQUINAS NÃO ATINGIDA! <BR>
+                    </font>
+                }
+                @if (Model.totalClienteNegociando >= 30)
+                {
+                    <font size="2" color="blue">
+                        COTAS DE CLIENTES OK!
+                    </font>
+                }
+                else
+                {
+                    <font size="2" color="RED">
+                        COTAS DE CLIENTES NÃO ATINGIDA !
+                    </font>
+
+                }
+
+
+
+
+            </div>
+
+            <div id="divTabela">
+                <table id='tbDefault' class='table' style="border:none !important" cellspacing='0' width='100%'>
+
+
+
+
+
+
+
+
+                    <tbody>
+                        @foreach (var usuario in Model.usuariosGrid)
+                        {
+                            <tr>
+
+                                <td colspan="6"><B>Usuario : @usuario.Nome </B></td>
+
+                                @foreach (var cliente in Model.clientes)
+                                {
+
+
+
+
+
+                                    if (cliente.idVendedor == usuario.Id)
+                                    {
+
+
+                                    <tr>
+                                    <tr></tr>
+                                <td colspan="6">
+                                    <font size="3" color="red">Nome : @cliente.nome_cliente</font>
+
+
+                                    Contato:  @cliente.contato
+                                    Telefone:  @cliente.telefone
+                                    E-mail:  @cliente.email
+                                    Status:  @cliente.situacaoClienteVendendor
+                                </td>
+                                <tr>
+                                    <td colspan="6">AD: @cliente.Ad | OS:@cliente.Os | Tapete:@cliente.tapete | Aro:@cliente.aro | Secador:@cliente.secador | Fio Dental:@cliente.fioDental </td>
+                                </tr>
+
+                                <tr>
+                                <tr>
+                                    <th colspan="6"><B>Histórico de Atendimentos </B></th>
+                                </tr>
+
+                                <th>Data Contato</th>
+                                <th>Data Ocorrência</th>
+                                <th>Hora Inicio</th>
+                                <th>Hora Fim</th>
+                                <th>Tipo</th>
+                                <th>Obs</th>
+                                </tr>
+
+                                @foreach (var atendi in Model.atendimentos)
+                                {
+
+
+                                    if (atendi.idCliente == cliente.Id)
+                                    {
+                                       
+                                        <tr>
+                                            <td>
+                                                <font size="3" color="red">@atendi.dataContato</font>
+                                            </td>
+
+                                            <td> @atendi.dataVisita</td>
+
+
+                                            <td>@atendi.horaIni</td>
+                                            <td>@atendi.horaFim</td>
+                                            <td>@atendi.descricaoTipo</td>
+                                            <td>@atendi.obs</td>
+
+                                            <td>
+
+                                                @if (atendi.idTipoAtendimento == 2)
+                                                {
+                                                    <button class="btn btn-primary mapa" data-longitude="@atendi.logintude" 
+                                                                                        data-latitude="@atendi.latitude"
+                                                            data-latitudeCasa="@atendi.latitude_casa"
+                                                            data-longitudeCasa="@atendi.logintude_casa"
+                                                            
+                                                            
+                                                            
+                                                            title="Mapa"><i class="glyphicon glyphicon-map-marker"></i></button>
+
+                                                }
+
+                                            </td>
+
+                                        </tr>
+
+                                    }
+                                }
+
+                                </tr>
+                            }
+                        }
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+
+                    <table class='table' style="border:none !important" cellspacing='0' width='100%'>
+                        <thead>
+
+                        </thead>
+                        <tbody>
+                            @foreach (var datas in Model.listaDatas)
+                            {
+
+
+                                <tr>
+                                    <th>
+                                        <font size="3" color="red">Data @datas.data.Date  Total ligação @datas.totalLiga Total de Visitas @datas.totalVisita </font>
+
+                                    </th>
+                                </tr>
+                                foreach (var atendimento in Model.performanceDia)
+                                {
+                                    if (atendimento.data.Date == datas.data.Date)
+                                    {
+
+
+                                        <tr>
+                                            <td>@atendimento.nome</td>
+                                            <td>@atendimento.data</td>
+                                            <td>@atendimento.tipo</td>
+                                            <td>@atendimento.obs</td>
+                                        </tr>
+                                    }
+
+                                }
+
+
+                            }
+                        </tbody>
+
+
+
+
+
+
+
+                    </table>
+
+
+
+                    <table class='table' style="border:none !important" cellspacing='0' width='100%'>
+                        <thead>
+
+                        </thead>
+                        <tbody>
+
+
+                            <tr>
+                                <th>Avaliação do Vendendor sobre sua ultima semana</th>
+                                <th></th>
+                                <th>Avaliação do Gerente sobre sua ultima semana</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <td>Ligaçoes por dia  bom </td>
+                                <td> ( )Ótimo ( )Médio ( )Ruim</td>
+                                <td>Ligaçoes por dia  bom </td>
+                                <td> ( )Ótimo ( )Médio ( )Ruim</td>
+                            </tr>
+                            <tr>
+                                <td>Quantidade de visitas</td>
+                                <td> ( )Ótimo ( )Médio ( )Ruim</td>
+                                <td>Quantidade de visitas</td>
+                                <td> ( )Ótimo ( )Médio ( )Ruim</td>
+                            </tr>
+                            <tr>
+                                <td>Quantidade de maquinas negociando</td>
+                                <td> ( )Ótimo ( )Médio ( )Ruim</td>
+                                <td>Quantidade de maquinas negociando</td>
+                                <td> ( )Ótimo ( )Médio ( )Ruim</td>
+                            </tr>
+                            <tr>
+                                <td>Quantidade de clientes negociando</td>
+                                <td> ( )Ótimo ( )Médio ( )Ruim</td>
+                                <td>Quantidade de clientes negociando</td>
+                                <td> ( )Ótimo ( )Médio ( )Ruim</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <hr>
+                    <font size="4"><b>Resumo do que o Gerente falou para o Vendendor fazer(este papel sera lido pelo Superior do Gerente) deve ser enviado a ele:</b></font>
+                    <hr>
+                    <hr>
+                    <hr>
+                    <hr>
+                    <hr>
+                    <hr>
+                </div>
+                <div id="modalMapa" class="modal">
+
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">Detalhe Cliente</h4>
+                            </div>
+
+
+                            <div id="map_canvas " class="modal-body">
+                                <div id="map_canvas" style="width: 95%; height: 432px">
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+
+                                <input type="button" value="Fechar" class="btn btn-default" data-dismiss="modal" />
+                            </div>
+
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+
+
+                </div>
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                    <script type="text/JavaScript">
+
+
+
+                        $("input[type=datetime]").datepicker({
+                            dateFormat: 'dd/mm/yy',
+                            dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                            dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+                            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                            monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                            nextText: 'Próximo',
+                            prevText: 'Anterior'
+                        });
+                        $(function () {
+                            $.validator.addMethod('date',
+                                function (value, element) {
+                                    if (this.optional(element)) {
+                                        return true;
+                                    }
+                                    var valid = true;
+                                    try {
+                                        $.datepicker.parseDate('dd/mm/yy', value);
+                                    }
+                                    catch (err) {
+                                        valid = false;
+                                    }
+                                    return valid;
+                                });
+                            $(".datetype").datepicker({ dateFormat: 'dd/mm/yy' });
+                        });
+
+                        var map = null;
+                        //Essa e a funcao que criara o mapa GoogleMaps
+                        $(".mapa").click(function () {
+
+
+                            var logintude = $(this).attr("data-longitude");
+                            var latitude = $(this).attr("data-latitude");
+
+                            var logintude_casa = $(this).attr("data-longitudeCasa");
+                            var latitude_casa = $(this).attr("data-latitudeCasa");
+
+                           
+
+                            //aqui vamos definir as coordenadas de latitude e longitude no qual
+                            //sera exibido o nosso mapa
+                            var latlng = new google.maps.LatLng(latitude, logintude); //DEFINE A LOCALIZAÇÃO EXATA DO MAPA
+                            //aqui vamos configurar o mapa, como o zoom, o centro do mapa, etc
+                            var myOptions = {
+                                zoom: 13,//utilizaremos o zoom 15
+                                center: latlng,//aqui a nossa variavel constando latitude e
+                                //longitude ja declarada acima
+                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                            };
+
+                            
+                            //criando o mapa dentro da div com o id="map_canvas" que ja criamos
+                            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                            map.zoom = 13;
+                            //DEFINE AS COORDENADAS do ponto exato - CENTRALIZAÇÃO DO MAPA
+                            map.setCenter(new google.maps.LatLng(latitude, logintude));
+
+                            console.log(latitude_casa + " aaa  " + logintude_casa);
+
+                            FazMarcacao(latitude, logintude);
+                          
+                            if (latitude_casa != 0) {
+                                console.log("latitude casa")
+                                FazMarcacao(latitude_casa, logintude_casa, true);
+                            }
+
+
+
+                        });
+
+                        function FazMarcacao(lat, long, casa) {
+
+                            var latlong = lat + "," + long;//colocando na conficuracao necessaria (lat,long)
+                            var myLatLgn = new google.maps.LatLng(lat, long);
+                           
+                           
+                            var image = 'https://img.icons8.com/color/30/000000/cottage.png';
+                           
+                            //criando variavel tipo google.maps.LatLng e
+                            //passando como parametro a latitude e longitude
+                            //na configuracao: latitude,longitude.
+
+                            //aproximando o mapa, aumentando o zoom
+                            map.setZoom(10);
+
+                            //fazendo  a marcacao, usando o latitude e longitude da variavel criada acima
+                            if (casa) {
+                                var marker = new google.maps.Marker({ position: myLatLgn, map: map, icon: image });
+                            } else {
+                                var marker = new google.maps.Marker({ position: myLatLgn, map: map});
+                            }
+                            //aqui a variavel e o comando que faz a marcação
+
+                            map.setCenter(myLatLgn);//leva o mapa para a posicao da marcacao
+                            
+
+                            $("#modalMapa").modal("show");
+                        }
+
+                        function abreLink() {
+                            window.open('http://www.google.com.br');
+                        }
+                    </script>
+                }

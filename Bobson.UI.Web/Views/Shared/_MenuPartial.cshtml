@@ -1,0 +1,50 @@
+﻿@model System.Collections.Generic.IList<string>
+
+@{
+    Layout = null;
+}
+
+<ul class="nav navbar-nav">
+    @if (Model.Contains(Bobson.Core.Base.Config.Roles.Comercial.Replace(",Admin", "")) || Model.Contains(Bobson.Core.Base.Config.Roles.Gerente))
+    {
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Propostas<span class="caret"></span></a>
+            @Html.CreateMenuPropostas()
+        </li>
+    }
+    @if (Model.Contains(Bobson.Core.Base.Config.Roles.Escritorio.Replace(",Admin", "")) || Model.Contains(Bobson.Core.Base.Config.Roles.Tecnico.Replace(",Admin", "")) || Model.Contains(Bobson.Core.Base.Config.Roles.Gerente))
+    {
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Módulos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                @if (Model.Contains(Bobson.Core.Base.Config.Roles.Escritorio.Replace(",Admin", "")) || Model.Contains(Bobson.Core.Base.Config.Roles.Gerente))
+                {
+                    <li class="dropdown-header">Escritório</li>
+                    <li><a href="/Remessa/Index">Controle de Remessas</a></li>
+                    <li role="separator" class="divider"></li>
+                }
+                @if (Model.Contains(Bobson.Core.Base.Config.Roles.Tecnico.Replace(",Admin", "")) || Model.Contains(Bobson.Core.Base.Config.Roles.Gerente))
+                {
+                    <li class="dropdown-header">Suporte Técnico</li>
+                    <li><a href="/Aros/Index">Controle de Ocorrências</a></li>
+                    <li><a href="/Usuarios/Index">Controle de Usuários</a></li>
+                    
+                }
+            </ul>
+        </li>
+    }
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CRM<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="/Dash/Index">Acompanhamento Clientes</a></li>
+            @*@if (Model.Contains(Bobson.Core.Base.Config.Roles.Tecnico.Replace(",Admin", "")) || Model.Contains(Bobson.Core.Base.Config.Roles.Gerente))
+            {*@
+                
+                <li><a href="/RelAtendimento/Index">Performance Vendedores</a></li>
+                
+
+            @*}*@
+        </ul>
+</li>
+
+</ul>

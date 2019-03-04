@@ -1,0 +1,94 @@
+﻿@using Bobson.UI.Web.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Acessar Sistema";
+    Layout = "~/Views/Shared/_LayoutFechado.cshtml";
+}
+<br />
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+    @Html.AntiForgeryToken()
+
+    <div class="row ">
+        <div class="col-md-7">
+
+            <section id="loginForm">
+
+                <div class="jumbotron">
+                    <h1>@ViewBag.Title.</h1>
+
+                    <h4>Informe seu e-mail e senha para usar o sistema</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control input-lg", placeholder = "Seu Email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-8">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control input-lg", placeholder = "Sua Senha" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Entrar
+                            </button>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <p>
+                        @Html.ActionLink("Esqueceu sua senha?", "ForgotPassword")
+                    </p>
+                    <p>
+                        @Html.ActionLink("Ainda não tenho uma conta", "Register")
+                    </p>
+                </div>
+
+            </section>
+
+        </div>
+
+        @if (!ViewBag.OnlyLogin)
+        {
+            <div class="col-md-5">
+                <section id="Register">
+                    <div class="jumbotron bg-info">
+                        <h1>Primeiro Acesso</h1>
+
+                        <h4>Ainda não tem usuário, clique aqui !</h4>
+                        <hr />
+                        <p>
+                            Se você ainda não tem usuário e senha, clique no botão abaixo para criar.
+                            É fácil e rápido. Você precisa informar apenas seu Nome, seu e-mail pessoal, uma senha e sua data de nascimento.
+                        </p>
+                        <div class="pull-right">
+                            <button type="submit" formmethod="get" class="btn btn-success btn-lg" formaction="/Account/Register" formnovalidate="formnovalidate">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> Criar Usuário
+                            </button>
+                        </div>
+                        <br /><br />
+                    </div>
+                </section>
+            </div>
+        }
+
+        @*
+              <div class="col-md-4">
+                <section id="socialLoginForm">
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                </section>
+            </div>
+        *@
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

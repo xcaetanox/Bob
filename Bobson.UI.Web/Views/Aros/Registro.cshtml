@@ -1,0 +1,77 @@
+﻿@model Bobson.UI.Web.ArosViewModel
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.EstadoDefault)
+    @Html.HiddenFor(m => m.CodigoCliente)
+
+    @Html.HiddenFor(m => m.Local)
+    @Html.HiddenFor(m => m.Tipo)
+
+    @Html.HiddenFor(m => m.EquipamentoId)
+    @Html.HiddenFor(m => m.EquipamentoDescricao)
+
+    @Html.HiddenFor(m => m.Funcionamento)
+    @Html.HiddenFor(m => m.Aroma)        
+    @Html.HiddenFor(m => m.Solta)        
+    @Html.HiddenFor(m => m.Para)     
+
+        <div class="wizard-header">
+            <h3>
+                <b>REGISTRO DE OCORRÊNCIA</b><br>
+                <small>5/5 - Efetue o registro da Ocorrência</small>
+            </h3>
+        </div>
+        <div class="tab-content">
+
+            <div id="maquina">
+                <div class="row">
+                    <div class="form-group">
+						<h2>
+		                    <b>@Model.IdentificacaoLancamento</b><br>
+		                    <small>@Model.IdentificacaoLancamentoSmall</small>
+		                 </h2>
+					</div>
+
+				    <div class="form-group">
+                        @Html.LabelFor(model => model.LocalSelecionado, new { @class = "lead" })
+                        @Html.DropDownListFor(model => model.LocalSelecionado, new SelectList(@Model.Locais, "Id", "Desc"), new { @class = "form-control input-lg" })
+                        @Html.ValidationMessageFor(model => model.LocalSelecionado, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ServicoSelecionado, new { @class = "lead" })
+                        @Html.DropDownListFor(model => model.ServicoSelecionado, new SelectList(@Model.Servicos, "Id", "Desc"), new { @class = "form-control input-lg" })
+                        @Html.ValidationMessageFor(model => model.ServicoSelecionado, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                            @Html.LabelFor(model => model.PesoRefil, new { @class = "lead" })
+                            @Html.EditorFor(model => model.PesoRefil, new { htmlAttributes = new { @class = "form-control  input-lg", @placeholder = "Texto Livre" } })
+                            @Html.ValidationMessageFor(model => model.PesoRefil, "", new { @class = "text-danger" })
+                    </div>
+				
+                </div>
+            </div>
+
+        </div>
+        <div class="wizard-footer">
+            <div class="pull-right">
+                <input type="submit" value="Resgistrar" class="btn btn-fill btn-primary" name="Registro" formaction="/Aros/EfetuarRegistro" />
+            </div>
+            <div class="pull-left">
+                <input type="submit" value="Voltar" class="btn btn-fill btn-primary" name="Voltar" formaction="/Aros/Historico" />
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script type="text/JavaScript">
+
+    </script>
+}
